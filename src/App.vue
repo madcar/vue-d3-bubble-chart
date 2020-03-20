@@ -1,17 +1,49 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <McBubbleGraph :data="graphData">
+      <template #chart="{r}">
+        <circle class="babyname-circle" :r="r" fill="gray" />
+      </template>
+    </McBubbleGraph>
+    <button @click="toggleData">Toggle Data</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
+import McBubbleGraph from "@/components/McBubbleGraph";
 export default {
-  name: "App",
+  name: "MadcarBubbleGraph",
   components: {
-    HelloWorld
+    McBubbleGraph
+  },
+  data() {
+    return {
+      toggle: true,
+      graphDataA: [
+        { name: "one", value: 1 },
+        { name: "two", value: 2 },
+        { name: "three", value: 3 },
+        { name: "four", value: 4 },
+        { name: "five", value: 5 }
+      ],
+      graphDataB: [
+        { name: "three", value: 3 },
+        { name: "four", value: 4 },
+        { name: "five", value: 5 },
+        { name: "six", value: 6 },
+        { name: "seven", value: 7 }
+      ]
+    };
+  },
+  computed: {
+    graphData() {
+      return this.toggle ? this.graphDataA : this.graphDataB;
+    }
+  },
+  methods: {
+    toggleData() {
+      this.toggle = !this.toggle;
+    }
   }
 };
 </script>
