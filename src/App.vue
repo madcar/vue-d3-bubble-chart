@@ -24,14 +24,17 @@ export default {
         { name: "two", value: 2 },
         { name: "three", value: 3 },
         { name: "four", value: 4 },
-        { name: "five", value: 5 }
+        { name: "five", value: 5 },
+        { name: "fifteen", value: 15 }
       ],
       graphDataB: [
         { name: "three", value: 3 },
         { name: "four", value: 4 },
         { name: "five", value: 5 },
         { name: "six", value: 6 },
-        { name: "seven", value: 7 }
+        { name: "sixteen", value: 16 },
+        { name: "seven", value: 7 },
+        { name: "seventeen", value: 17 }
       ]
     };
   },
