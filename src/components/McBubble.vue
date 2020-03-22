@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import gsap from "gsap";
+import gsap from 'gsap'
 export default {
   data() {
     return {
@@ -32,20 +32,20 @@ export default {
       offsetY: this.bubble.y || 0,
       radius: this.bubble.r || 0,
       transColor: this.color,
-      entered: false
-    };
+      entered: false,
+    }
   },
   props: {
     bubble: {
       default: () => ({ x: 0, y: 0 }),
-      type: Object
+      type: Object,
     },
-    color: String
+    color: String,
   },
   computed: {
     position() {
-      return `translate(${this.offsetX}px, ${this.offsetY}px)`;
-    }
+      return `translate(${this.offsetX}px, ${this.offsetY}px)`
+    },
   },
   watch: {
     bubble: {
@@ -53,18 +53,18 @@ export default {
         gsap.to(this.$data, {
           offsetX: data.x,
           offsetY: data.y,
-          radius: data.r
-        });
+          radius: data.r,
+        })
       },
-      immediate: true
+      immediate: true,
     },
     color(val) {
       gsap.to(this.$data, {
-        transColor: val
-      });
-    }
-  }
-};
+        transColor: val,
+      })
+    },
+  },
+}
 </script>
 
 <style>

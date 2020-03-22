@@ -25,48 +25,48 @@
 </template>
 
 <script>
-import * as d3 from "d3";
-import gsap from "gsap";
-import McBubble from "@/components/McBubble";
+import * as d3 from 'd3'
+import gsap from 'gsap'
+import McBubble from '@/components/McBubble'
 export default {
   components: {
-    McBubble
+    McBubble,
   },
   props: {
     data: Array,
     dimensions: {
       type: Object,
-      default: () => ({ width: window.innerWidth, height: window.innerHeight })
+      default: () => ({ width: 500, height: 500 }),
     },
     colorScheme: {
       type: String,
-      default: "Sinebow"
-    }
+      default: 'Sinebow',
+    },
   },
   computed: {
     chartData() {
-      const { width, height } = this.dimensions;
+      const { width, height } = this.dimensions
       return d3
         .pack()
         .size([width, height])
-        .padding(0)(d3.hierarchy({ children: this.data }).sum(d => d.value));
-    }
+        .padding(0)(d3.hierarchy({ children: this.data }).sum(d => d.value))
+    },
   },
   methods: {
     enter(el, done) {
       gsap.from(el, {
         scale: 0,
-        transformOrigin: "center center",
-        onComplete: done
-      });
+        transformOrigin: 'center center',
+        onComplete: done,
+      })
     },
     leave(el, done) {
-      gsap.set(el, { scale: 1 });
+      gsap.set(el, { scale: 1 })
       gsap.to(el, {
         scale: 0,
-        transformOrigin: "center center",
-        onComplete: done
-      });
+        transformOrigin: 'center center',
+        onComplete: done,
+      })
     },
     async _data() {},
     colorFunc(color) {
@@ -74,11 +74,11 @@ export default {
         .scaleLinear()
         .domain([
           d3.min(this.data, d => d.value),
-          d3.max(this.data, d => d.value) + 1
+          d3.max(this.data, d => d.value) + 1,
         ])
-        .range([0, 1]);
-      return d3["interpolate" + this.colorScheme](scaleFunc(color));
-    }
-  }
-};
+        .range([0, 1])
+      return d3['interpolate' + this.colorScheme](scaleFunc(color))
+    },
+  },
+}
 </script>
