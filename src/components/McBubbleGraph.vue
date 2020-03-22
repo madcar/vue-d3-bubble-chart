@@ -7,6 +7,8 @@
       :height="dimensions.height"
       id="bubble-canvas"
       ref="canvas"
+      @enter="enter"
+      @leave="leave"
     >
       >
       <slot v-bind="chartData.children">
@@ -19,13 +21,12 @@
         />
       </slot>
     </transition-group>
-    <p>Everything here</p>
   </div>
 </template>
 
 <script>
 import * as d3 from "d3";
-// import gsap from "gsap";
+import gsap from "gsap";
 import McBubble from "@/components/McBubble";
 export default {
   components: {
@@ -35,64 +36,49 @@ export default {
     data: Array,
     dimensions: {
       type: Object,
-      default: () => ({ width: 500, height: 500 })
+      default: () => ({ width: window.innerWidth, height: window.innerHeight })
     },
     colorScheme: {
       type: String,
       default: "Sinebow"
     }
   },
-  //   data() {},
   computed: {
-    circles() {
-      return this.canvas.selectAll("circle");
-    },
-    canvas() {
-      return d3.select("#bubble-canvas");
-    },
     chartData() {
       const { width, height } = this.dimensions;
       return d3
         .pack()
         .size([width, height])
         .padding(0)(d3.hierarchy({ children: this.data }).sum(d => d.value));
-      // .sort((a, b) => b.value - a.value)
-      // .sum(d => d.value);
     }
   },
   methods: {
-    // enter(el, done) {
-    //   console.log("entering");
-    //   console.log(el);
-    //   done();
-    // },
+    enter(el, done) {
+      gsap.from(el, {
+        scale: 0,
+        transformOrigin: "center center",
+        onComplete: done
+      });
+    },
+    leave(el, done) {
+      gsap.set(el, { scale: 1 });
+      gsap.to(el, {
+        scale: 0,
+        transformOrigin: "center center",
+        onComplete: done
+      });
+    },
     async _data() {},
     colorFunc(color) {
       const scaleFunc = d3
         .scaleLinear()
-        .domain(d3.extent(this.data, d => d.value))
+        .domain([
+          d3.min(this.data, d => d.value),
+          d3.max(this.data, d => d.value) + 1
+        ])
         .range([0, 1]);
       return d3["interpolate" + this.colorScheme](scaleFunc(color));
-      // return scaleFunc(color);
     }
-  },
-  mounted() {
-    // console.log(this.$refs.bubble.map(bubble => bubble.$refs.circle));
   }
 };
 </script>
-
-<style>
-/* .bubble-group {
-  transition: transform 1s;
-} */
-.bubbles-enter {
-  transform: scale(0, 0);
-}
-.bubbles-enter-to {
-  transition-property: scale(1, 1);
-}
-.bubbles-enter-active {
-  transition: transform 1s;
-}
-</style>

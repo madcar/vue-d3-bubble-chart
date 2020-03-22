@@ -1,5 +1,5 @@
 <template>
-  <transition name="bubble" @beforeEnter="exit">
+  <transition name="bubble">
     <g
       class="bubble-group"
       :key="bubble.data.name"
@@ -8,11 +8,16 @@
       <slot name="leaf" v-bind="bubble">
         <circle
           class="babyname-circle"
-          :r="radius"
-          :fill="color"
+          :r="$data.radius"
+          :fill="transColor"
           ref="circle"
         />
-        <text>{{ bubble.data.name }}<br />{{ offsetX }}</text>
+        <text
+          class="bubble-label"
+          :font-size="(bubble.r * 2) / bubble.data.name.length"
+          :style="{ width: bubble.r * 2, height: bubble.r * 2 }"
+          >{{ bubble.data.name }}</text
+        >
       </slot>
     </g>
   </transition>
@@ -25,7 +30,8 @@ export default {
     return {
       offsetX: this.bubble.x || 0,
       offsetY: this.bubble.y || 0,
-      radius: 0,
+      radius: this.bubble.r || 0,
+      transColor: this.color,
       entered: false
     };
   },
@@ -45,21 +51,25 @@ export default {
     bubble: {
       handler(data) {
         gsap.to(this.$data, {
-          duration: 0.5,
           offsetX: data.x,
           offsetY: data.y,
           radius: data.r
         });
       },
       immediate: true
-    }
-  },
-  methods: {
-    exit(el) {
-      console.log(el);
+    },
+    color(val) {
+      gsap.to(this.$data, {
+        transColor: val
+      });
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+.bubble-group {
+  dominant-baseline: central;
+  text-anchor: middle;
+}
+</style>
