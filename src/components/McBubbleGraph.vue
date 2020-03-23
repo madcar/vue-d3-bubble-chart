@@ -16,7 +16,7 @@
           v-for="bubble in chartData.children"
           :bubble="bubble"
           :key="bubble.data.name"
-          :color="colorFunc(bubble.data.value)"
+          :color="bubble.data.color"
           ref="bubble"
         />
       </slot>
@@ -37,10 +37,6 @@ export default {
     dimensions: {
       type: Object,
       default: () => ({ width: 500, height: 500 }),
-    },
-    colorScheme: {
-      type: String,
-      default: 'Sinebow',
     },
   },
   computed: {

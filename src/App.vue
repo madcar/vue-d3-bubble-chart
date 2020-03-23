@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <McBubbleGraph :data="graphData">
+    <McBubbleGraph :data="mappedData">
       <template #chart="{r}">
         <circle class="babyname-circle" :r="r" fill="gray" />
       </template>
@@ -11,7 +11,7 @@
 
 <script>
 import McBubbleGraph from '@/components/McBubbleGraph'
-import d3 from 'd3'
+import * as d3 from 'd3'
 export default {
   name: 'MadcarBubbleGraph',
   components: {
@@ -40,8 +40,23 @@ export default {
     }
   },
   computed: {
+    mappedData() {
+      return this.graphData.map(data => ({
+        ...data,
+        color: this.colorFunc(data.value),
+      }))
+    },
     graphData() {
       return this.toggle ? this.graphDataA : this.graphDataB
+    },
+    scaleFunc() {
+      return d3
+        .scaleLinear()
+        .domain([
+          d3.min(this.graphData, d => d.value),
+          d3.max(this.graphData, d => d.value) + 1,
+        ])
+        .range([0, 1])
     },
   },
   methods: {
@@ -50,14 +65,7 @@ export default {
     },
 
     colorFunc(color) {
-      const scaleFunc = d3
-        .scaleLinear()
-        .domain([
-          d3.min(this.data, d => d.value),
-          d3.max(this.data, d => d.value) + 1,
-        ])
-        .range([0, 1])
-      return d3['interpolate' + this.colorScheme](scaleFunc(color))
+      return d3.interpolateSinebow(this.scaleFunc(color))
     },
   },
 }
