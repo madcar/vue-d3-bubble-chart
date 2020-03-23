@@ -4,6 +4,7 @@
       class="bubble-group"
       :key="bubble.data.name"
       :style="{ transform: position }"
+      :transform="position"
     >
       <slot name="leaf" v-bind="bubble">
         <circle
@@ -44,7 +45,7 @@ export default {
   },
   computed: {
     position() {
-      return `translate(${this.offsetX}px, ${this.offsetY}px)`
+      return `matrix(1, 0, 0, 1, ${this.offsetX}, ${this.offsetY})`
     },
   },
   watch: {
