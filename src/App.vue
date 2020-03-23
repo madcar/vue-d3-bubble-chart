@@ -1,21 +1,21 @@
 <template>
   <div id="app">
-    <McBubbleGraph :data="mappedData">
+    <BubbleChart :data="mappedData">
       <template #chart="{r}">
         <circle class="babyname-circle" :r="r" fill="gray" />
       </template>
-    </McBubbleGraph>
+    </BubbleChart>
     <button @click="toggleData">Toggle Data</button>
   </div>
 </template>
 
 <script>
-import McBubbleGraph from '@/components/McBubbleGraph'
+import BubbleChart from '@/components/BubbleChart'
 import * as d3 from 'd3'
 export default {
   name: 'MadcarBubbleGraph',
   components: {
-    McBubbleGraph,
+    BubbleChart,
   },
   data() {
     return {

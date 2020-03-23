@@ -12,7 +12,7 @@
     >
       >
       <slot v-bind="chartData.children">
-        <McBubble
+        <ChartBubble
           v-for="bubble in chartData.children"
           :bubble="bubble"
           :key="bubble.data.name"
@@ -27,10 +27,10 @@
 <script>
 import * as d3 from 'd3'
 import gsap from 'gsap'
-import McBubble from '@/components/McBubble'
+import ChartBubble from '@/components/ChartBubble'
 export default {
   components: {
-    McBubble,
+    ChartBubble,
   },
   props: {
     data: Array,
