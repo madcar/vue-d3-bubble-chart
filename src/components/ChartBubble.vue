@@ -6,11 +6,11 @@
       :style="{ transform: position }"
       :transform="position"
     >
-      <slot name="leaf" v-bind="bubble">
+      <slot :leaf="leaf">
         <circle
           class="babyname-circle"
           :r="$data.radius"
-          :fill="transColor"
+          :fill="leaf.color"
           ref="circle"
         />
         <text
@@ -29,11 +29,12 @@ import gsap from 'gsap'
 export default {
   data() {
     return {
-      offsetX: this.bubble.x || 0,
-      offsetY: this.bubble.y || 0,
-      radius: this.bubble.r || 0,
-      transColor: this.color,
-      entered: false,
+      // offsetX: this.bubble.x || 0,
+      // offsetY: this.bubble.y || 0,
+      // radius: this.bubble.r || 0,
+      // transColor: this.color,
+      // entered: false,
+      leaf: this.bubble,
     }
   },
   props: {
@@ -45,16 +46,25 @@ export default {
   },
   computed: {
     position() {
-      return `matrix(1, 0, 0, 1, ${this.offsetX}, ${this.offsetY})`
+      return `matrix(1, 0, 0, 1, ${this.leaf.x}, ${this.leaf.y})`
     },
   },
   watch: {
     bubble: {
       handler(data) {
-        gsap.to(this.$data, {
-          offsetX: data.x,
-          offsetY: data.y,
-          radius: data.r,
+        console.log('handler data', data)
+        // gsap.to(this.$data, {
+        //   offsetX: data.x,
+        //   offsetY: data.y,
+        //   radius: data.r,
+        // })
+        gsap.to(this.$data.leaf, {
+          x: data.x,
+          y: data.y,
+          r: data.r,
+          color: data.color,
+          delay: 0.3,
+          duration: 1,
         })
       },
       immediate: true,

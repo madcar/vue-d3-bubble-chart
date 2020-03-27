@@ -10,16 +10,27 @@
       @enter="enter"
       @leave="leave"
     >
+      <ChartBubble
+        v-for="bubble in bubbles"
+        :bubble="bubble"
+        :key="bubble.data.name"
+        :color="bubble.data.color"
+        ref="bubble"
+        v-slot="{ leaf }"
       >
-      <slot v-bind="chartData.children">
-        <ChartBubble
-          v-for="bubble in chartData.children"
-          :bubble="bubble"
-          :key="bubble.data.name"
-          :color="bubble.data.color"
-          ref="bubble"
+        <circle
+          class="babyname-circle"
+          :r="leaf.r"
+          :fill="leaf.color"
+          ref="circle"
         />
-      </slot>
+        <text
+          class="bubble-label"
+          :font-size="(leaf.r * 2) / leaf.data.name.length"
+          :style="{ width: leaf.r * 2, height: leaf.r * 2 }"
+          >{{ bubble.data.name }}</text
+        >
+      </ChartBubble>
     </transition-group>
   </div>
 </template>
@@ -40,6 +51,10 @@ export default {
     },
   },
   computed: {
+    bubbles() {
+      return this.chartData.children.map(d => ({ ...d, color: d.data.color }))
+      // return this.chartData.children
+    },
     chartData() {
       const { width, height } = this.dimensions
       return d3

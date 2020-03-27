@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-    <BubbleChart :data="mappedData">
-      <template #chart="{r}">
-        <circle class="babyname-circle" :r="r" fill="gray" />
-      </template>
-    </BubbleChart>
+    <BubbleChart :data="mappedData"></BubbleChart>
     <button @click="toggleData">Toggle Data</button>
   </div>
 </template>
