@@ -29,11 +29,6 @@ import gsap from 'gsap'
 export default {
   data() {
     return {
-      // offsetX: this.bubble.x || 0,
-      // offsetY: this.bubble.y || 0,
-      // radius: this.bubble.r || 0,
-      // transColor: this.color,
-      // entered: false,
       leaf: this.bubble,
     }
   },
@@ -42,7 +37,6 @@ export default {
       default: () => ({ x: 0, y: 0 }),
       type: Object,
     },
-    color: String,
   },
   computed: {
     position() {
@@ -52,12 +46,6 @@ export default {
   watch: {
     bubble: {
       handler(data) {
-        console.log('handler data', data)
-        // gsap.to(this.$data, {
-        //   offsetX: data.x,
-        //   offsetY: data.y,
-        //   radius: data.r,
-        // })
         gsap.to(this.$data.leaf, {
           x: data.x,
           y: data.y,
@@ -68,11 +56,6 @@ export default {
         })
       },
       immediate: true,
-    },
-    color(val) {
-      gsap.to(this.$data, {
-        transColor: val,
-      })
     },
   },
 }

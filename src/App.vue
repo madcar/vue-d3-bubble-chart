@@ -59,7 +59,6 @@ export default {
     toggleData() {
       this.toggle = !this.toggle
     },
-
     colorFunc(color) {
       return d3.interpolateSinebow(this.scaleFunc(color))
     },

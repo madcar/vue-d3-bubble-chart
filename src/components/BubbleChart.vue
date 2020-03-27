@@ -52,8 +52,10 @@ export default {
   },
   computed: {
     bubbles() {
-      return this.chartData.children.map(d => ({ ...d, color: d.data.color }))
-      // return this.chartData.children
+      return this.chartData.children.map(d => ({
+        ...d,
+        color: d.data.color || '#757575',
+      }))
     },
     chartData() {
       const { width, height } = this.dimensions
@@ -68,6 +70,7 @@ export default {
       gsap.from(el, {
         scale: 0,
         transformOrigin: 'center center',
+        delay: 0.3,
         onComplete: done,
       })
     },
