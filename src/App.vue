@@ -1,6 +1,32 @@
 <template>
   <div id="app">
-    <BubbleChart :data="mappedData"></BubbleChart>
+    <BubbleChart :data="mappedData">
+      <template #before>
+        <defs key="defs">
+          <filter id="motionFilter" width="300%" x="-100%"
+            ><feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="2 1"
+            ></feGaussianBlur></filter
+        ></defs>
+      </template>
+      <template #default="{leaf}">
+        <circle
+          class="bubble-circle"
+          :r="leaf.r"
+          :fill="leaf.color"
+          ref="circle"
+        />
+        <circle class="bubble-blur" :r="leaf.r - 3" :fill="leaf.color" />
+        <text
+          class="bubble-label"
+          :font-size="(leaf.r * 2) / leaf.data.name.length"
+          :style="{ width: leaf.r * 2, height: leaf.r * 2 }"
+          fill="#222"
+          >{{ leaf.data.name }}</text
+        >
+      </template>
+    </BubbleChart>
     <button @click="toggleData">Toggle Data</button>
   </div>
 </template>
@@ -74,5 +100,14 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.bubble-blur {
+  filter: url('#motionFilter');
+  opacity: 0.9;
+}
+.bubble-circle {
+  opacity: 0.7;
+  mix-blend-mode: multiply;
+  isolation: isolate;
 }
 </style>

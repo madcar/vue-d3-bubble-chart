@@ -10,6 +10,7 @@
       @enter="enter"
       @leave="leave"
     >
+      <slot name="before" />
       <ChartBubble
         v-for="bubble in bubbles"
         :bubble="bubble"
@@ -18,18 +19,20 @@
         ref="bubble"
         v-slot="{ leaf }"
       >
-        <circle
-          class="babyname-circle"
-          :r="leaf.r"
-          :fill="leaf.color"
-          ref="circle"
-        />
-        <text
-          class="bubble-label"
-          :font-size="(leaf.r * 2) / leaf.data.name.length"
-          :style="{ width: leaf.r * 2, height: leaf.r * 2 }"
-          >{{ bubble.data.name }}</text
-        >
+        <slot :leaf="leaf">
+          <circle
+            class="babyname-circle"
+            :r="leaf.r"
+            :fill="leaf.color"
+            ref="circle"
+          />
+          <text
+            class="bubble-label"
+            :font-size="(leaf.r * 2) / leaf.data.name.length"
+            :style="{ width: leaf.r * 2, height: leaf.r * 2 }"
+            >{{ bubble.data.name }}</text
+          >
+        </slot>
       </ChartBubble>
     </transition-group>
   </div>
