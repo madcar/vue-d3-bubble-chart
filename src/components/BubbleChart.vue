@@ -8,6 +8,7 @@
       id="bubble-canvas"
       ref="canvas"
       @enter="enter"
+      @before-leave="beforeLeave"
       @leave="leave"
     >
       <slot name="before" />
@@ -76,6 +77,9 @@ export default {
         delay: 0.3,
         onComplete: done,
       })
+    },
+    beforeLeave(el) {
+      gsap.set(el, { x: el.dataset.x, y: el.dataset.y })
     },
     leave(el, done) {
       gsap.set(el, { scale: 1 })

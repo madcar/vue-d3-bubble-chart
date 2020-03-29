@@ -5,6 +5,8 @@
       :key="bubble.data.name"
       :style="{ transform: position }"
       :transform="position"
+      :data-x="bubble.x"
+      :data-y="bubble.y"
     >
       <slot :leaf="leaf">
         <circle
